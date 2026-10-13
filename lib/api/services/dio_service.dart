@@ -12,6 +12,8 @@ import 'package:template/api/utils/network_response.dart';
 
 import '../utils/logger.dart';
 
+final dioServiceProvider = Provider((ref) => DioService());
+
 final cancelTokenStateProvider =
     StateProvider<CancelToken>((ref) => CancelToken());
 
@@ -290,31 +292,48 @@ class DioService extends NetworkApi {
   }
 
   NetworkResponse _handleError(DioException e, NetworkResponse result) {
+    result.success = false;
+    result.code = e.response?.statusCode ?? 500;
+    result.data = e.response?.data;
+
     if (e.type == DioExceptionType.cancel) {
       log("Request Cancelled");
-      return result
-        ..message = "Request Cancelled"
-        ..success = false
-        ..data = e.response?.data;
+      result.message = "Request Cancelled";
+      return result;
     }
+
+    final responseData = e.response?.data;
+    String? serverMessage;
+    if (responseData is Map) {
+      serverMessage = responseData["message"] ?? responseData["title"];
+    }
+
     switch (e.response?.statusCode) {
       case 400:
-        log("From within dio service catch: ${(e.response?.data)["message"]}");
-        result.message = (e.response?.data)["message"];
+        log("From within dio service catch: $serverMessage");
+        result.message = serverMessage ?? "Bad Request";
         return result;
       case 401:
-        log("From within dio service catch: ${(e.response?.data)["message"]}");
-        result.message = (e.response?.data)["message"];
+        log("From within dio service catch: $serverMessage");
+        result.message = serverMessage ?? "Unauthorized";
+        return result;
+      case 404:
+        log("From within dio service catch: $serverMessage");
+        result.message = serverMessage ?? "Not Found";
         return result;
       case 500:
-        log("From within dio service catch: ${(e.response?.data)["message"]}");
-        result.message = "An error occured, please try again";
+        log("From within dio service catch: $serverMessage");
+        result.message =
+            serverMessage ?? "An error occured, please try again";
         return result;
       case 502:
-        log("From within dio service catch: ${(e.response?.data)["message"]}");
-        return result..message = "An error occured, please try again";
+        log("From within dio service catch: $serverMessage");
+        result.message = "An error occured, please try again";
+        return result;
       default:
-        return result..message = "An error occured, please try again";
+        result.message =
+            serverMessage ?? "An error occured, please try again";
+        return result;
     }
   }
 
