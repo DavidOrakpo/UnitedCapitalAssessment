@@ -16,4 +16,12 @@ class AppNavigator {
 
   /// The global key for the Navigator State
   GlobalKey<NavigatorState> get navKey => _navKey;
+  final GlobalKey<NavigatorState> _homePageKey = GlobalKey<NavigatorState>();
+
+  /// The global key for the Navigator State
+  GlobalKey<NavigatorState> get homePageKey => _homePageKey;
+  final GlobalKey<NavigatorState> _userPageKey = GlobalKey<NavigatorState>();
+
+  /// The global key for the Navigator State
+  GlobalKey<NavigatorState> get userPageKey => _userPageKey;
 }

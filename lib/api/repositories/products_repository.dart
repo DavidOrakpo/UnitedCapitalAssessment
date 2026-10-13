@@ -7,6 +7,7 @@ import 'package:template/api/keys/api_keys.dart';
 import 'package:template/api/services/dio_service.dart';
 import 'package:template/api/utils/logger.dart';
 import 'package:template/api/utils/network_response.dart';
+import 'package:template/core/Utilities/Enums/enums.dart';
 
 final productsRepoProvider = Provider<ProductsInterface>((ref) {
   return ProductsRepository(
@@ -25,7 +26,7 @@ class ProductsRepository implements ProductsInterface {
 
   @override
   Future<NetworkResponse> getProducts({
-    String? riskLevel,
+    RiskLevel? riskLevel,
     String? search,
     bool? simulateEmpty,
     bool? simulateError,
@@ -38,7 +39,7 @@ class ProductsRepository implements ProductsInterface {
       final networkResponse = await _networkService.get(
         url: url,
         queryParameters: {
-          if (riskLevel != null && riskLevel.isNotEmpty) "riskLevel": riskLevel,
+          if (riskLevel != null) "riskLevel": riskLevel.title,
           if (search != null && search.isNotEmpty) "search": search,
           if (simulateEmpty != null) "simulateEmpty": simulateEmpty,
           if (simulateError != null) "simulateError": simulateError,
