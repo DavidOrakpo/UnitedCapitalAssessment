@@ -125,9 +125,8 @@ class InvestmentCalculatorCard extends StatelessWidget {
                 color: isDark ? Colors.white60 : const Color(0xFF667085),
               ),
               filled: true,
-              fillColor: isDark
-                  ? const Color(0xFF14141E)
-                  : const Color(0xFFF9FAFB),
+              fillColor:
+                  isDark ? const Color(0xFF14141E) : const Color(0xFFF9FAFB),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(color: borderColor),
@@ -208,9 +207,7 @@ class InvestmentCalculatorCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: isDark
-                  ? const Color(0xFF14141E)
-                  : const Color(0xFFF0FDF4),
+              color: isDark ? const Color(0xFF14141E) : const Color(0xFFF0FDF4),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: const Color(0xFF86EFAC).withValues(alpha: 0.5),
@@ -221,13 +218,15 @@ class InvestmentCalculatorCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Estimated Interest (${product.durationLabel})',
-                      style: AppTextStyle.bodyThree.copyWith(
-                        color:
-                            isDark ? Colors.white70 : const Color(0xFF166534),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                    Flexible(
+                      child: Text(
+                        'Estimated Interest (${product.durationLabel})',
+                        style: AppTextStyle.bodyThree.copyWith(
+                          color:
+                              isDark ? Colors.white70 : const Color(0xFF166534),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     Text(

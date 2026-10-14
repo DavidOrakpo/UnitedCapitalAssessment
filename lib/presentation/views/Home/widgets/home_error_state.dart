@@ -46,6 +46,7 @@ class HomeErrorState extends StatelessWidget {
           PrimaryButton(
             text: 'Retry Loading',
             width: 160,
+            topPadding: 0,
             height: 46,
             onPressed: onRetry,
           ),
